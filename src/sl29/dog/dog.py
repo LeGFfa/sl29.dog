@@ -30,6 +30,9 @@ class Dog:
         self._race = race
         self._sex = sex
         self.name = name
+        self._mother = None
+        self._father = None
+        self._puppies = []
 
     @property
     def race(self) -> str:
@@ -50,6 +53,56 @@ class Dog:
             str: Le sex du chien.
         """
         return self._sex
+
+    class MatingError(Exception):
+        pass
+
+    @property
+    def mother(self) -> Optional['Dog']:
+        """Retourne la mère du chien ou None."""
+        return self._mother
+
+    @property
+    def father(self) -> Optional['Dog']:
+        """Retourne le père du chien ou None."""
+        return self._father
+
+    @property
+    def puppies(self) -> list:
+        """Retourne la liste des chiots."""
+        return self._puppies
+
+    def mate(self, other: 'Dog') -> 'Dog':
+        """
+        Fait s'accoupler deux chiens et retourne un chiot.
+
+        Args:
+            other (Dog): L'autre chien avec lequel s'accoupler.
+
+        Returns:
+            Dog: Le chiot issu de l'accouplement.
+
+        Raises:
+            MatingError: Si les deux chiens sont de même sexe.
+        """
+        if self._sex == other._sex:
+            raise MatingError("Les chiens ne peuvent pas s'accoupler car ils sont du même sexe.")
+        
+        race = self._race if self._race == other._race else "bâtard"
+        
+        sex = random.choice(['M', 'F'])
+        
+        # Créer le chiot
+        puppy = Dog(race=race, sex=sex)
+        puppy.name = "" 
+        puppy._mother = self if self._sex == 'F' else other
+        puppy._father = self if self._sex == 'M' else other
+
+    
+        self._puppies.append(puppy)
+        other._puppies.append(puppy)
+
+        return puppy
 
     def __str__(self) -> str:
         """
