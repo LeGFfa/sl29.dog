@@ -57,5 +57,23 @@ class Dog:
         """
         return f"Chien: {self.name}, Race: {self._race}, Sexe: {self._sex}"
 
+    def bark(self, n: int = 1) -> str:
+        return "Woff" * n
+
+    def chew(self, stuff: str) -> str:
+        """Retire la dernière lettre d'une chaîne de caractères.
+        
+        Args:
+            stuff (str): La chaîne à modifier.
+            
+        Returns:
+            str: La chaîne sans sa dernière lettre.
+        """
+        if len(stuff) > 0:
+            return stuff[:-1]
+        return stuff
+
 if __name__ == "__main__":
     pass
+
+
